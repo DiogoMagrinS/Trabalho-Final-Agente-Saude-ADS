@@ -1,23 +1,57 @@
-import { PrismaClient, TipoUsuario } from '@prisma/client';
+import { PrismaClient } from '@prisma/client';
 import bcrypt from 'bcryptjs';
 
 const prisma = new PrismaClient();
-export async function criarNovoUsuario(dados: {
+
+export async function listarUsuarios() {
+  return prisma.usuario.findMany();
+}
+
+export async function buscarUsuarioPorId(id: number) {
+  const usuario = await prisma.usuario.findUnique({ where: { id } });
+  if (!usuario) throw new Error('Usuário não encontrado');
+  return usuario;
+}
+
+export async function criarUsuario(dados: {
   nome: string;
   email: string;
   senha: string;
-  tipo: TipoUsuario;
+  tipo: string;
 }) {
   const senhaHash = await bcrypt.hash(dados.senha, 10);
-  return await prisma.usuario.create({
+  return prisma.usuario.create({
     data: {
-      ...dados,
+      nome: dados.nome,
+      email: dados.email,
       senha: senhaHash,
+      tipo: dados.tipo as any
     },
   });
 }
 
+export async function atualizarUsuario(
+  id: number,
+  dados: Partial<{ nome: string; email: string; senha: string; tipo: string }>
+) {
+  const camposAtualizaveis: any = {};
 
-export async function buscarUsuarios() {
-  return await prisma.usuario.findMany();
+  if (dados.nome) camposAtualizaveis.nome = dados.nome;
+  if (dados.email) camposAtualizaveis.email = dados.email;
+  if (dados.tipo) camposAtualizaveis.tipo = dados.tipo;
+  if (dados.senha) {
+    camposAtualizaveis.senha = await bcrypt.hash(dados.senha, 10);
+  }
+
+  return prisma.usuario.update({
+    where: { id },
+    data: camposAtualizaveis,
+  });
+}
+
+
+export async function excluirUsuario(id: number) {
+  return prisma.usuario.delete({
+    where: { id },
+  });
 }

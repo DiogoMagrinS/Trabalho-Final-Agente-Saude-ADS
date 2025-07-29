@@ -1,9 +1,21 @@
 import { Router } from 'express';
-import { criarUsuario, listarUsuarios } from '../controllers/usuarioController';
+import {
+  getUsuarios,
+  getUsuarioPorId,
+  postUsuario,
+  putUsuario,
+  deleteUsuario
+} from '../controllers/usuarioController';
+import { autenticarToken } from '../middlewares/authMiddleware';
 
 const router = Router();
 
-router.post('/', criarUsuario);
-router.get('/', listarUsuarios);
+router.use(autenticarToken);
+
+router.get('/', getUsuarios);
+router.get('/:id', getUsuarioPorId);
+router.post('/', postUsuario);
+router.put('/:id', putUsuario);
+router.delete('/:id', deleteUsuario);
 
 export default router;
