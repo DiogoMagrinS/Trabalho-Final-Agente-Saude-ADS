@@ -1,0 +1,20 @@
+# Node modules
+node_modules/
+
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# Diretórios de build
+dist/
+build/
+
+# Ambiente
+.env
+
+# Mac OS
+.DS_Store
+
+# VS Code
+.vscode/
