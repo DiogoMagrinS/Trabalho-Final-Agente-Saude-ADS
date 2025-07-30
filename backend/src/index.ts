@@ -6,6 +6,7 @@ import { PrismaClient } from '@prisma/client';
 import usuarioRoutes from './routes/usuarioRoutes';
 import especialidadeRoutes from './routes/especialidadeRoutes';
 import authRoutes from './routes/authRoutes';
+import profissionalRoutes from './routes/profissionalRoutes';
 
 
 
@@ -22,7 +23,8 @@ app.use(express.json());
 // Rotas protegidas e públicas
 app.use('/api/usuarios', usuarioRoutes);          
 app.use('/api/especialidades', especialidadeRoutes); 
-app.use('/api/auth', authRoutes);                 
+app.use('/api/auth', authRoutes);   
+app.use('/api/profissionais', profissionalRoutes);             
 
 // Healthcheck
 app.get('/healthcheck', (req, res) => {
