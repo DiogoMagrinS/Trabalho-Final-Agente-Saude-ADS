@@ -48,10 +48,21 @@ export async function atualizarUsuario(
     data: camposAtualizaveis,
   });
 }
-
-
 export async function excluirUsuario(id: number) {
   return prisma.usuario.delete({
     where: { id },
+  });
+}
+
+export async function atualizarPerfil(id: number, dados: { nome?: string, email?: string }) {
+  return prisma.usuario.update({
+    where: { id },
+    data: dados,
+    select: {
+      id: true,
+      nome: true,
+      email: true,
+      tipo: true,
+    },
   });
 }

@@ -6,6 +6,8 @@ import {
   atualizarUsuario,
   excluirUsuario
 } from '../services/usuarioService';
+import { atualizarPerfil } from '../services/usuarioService';
+
 
 export async function getUsuarios(req: Request, res: Response) {
   const usuarios = await listarUsuarios();
@@ -46,3 +48,27 @@ export async function deleteUsuario(req: Request, res: Response) {
     res.status(404).json({ erro: 'Usuário não encontrado' });
   }
 }
+
+
+export async function atualizarPerfilUsuario(req: Request, res: Response) {
+  try {
+    if (!req.usuario?.id) {
+      return res.status(401).json({ erro: 'Usuário não autenticado.' });
+    }
+
+    const id = req.usuario.id;
+    const { nome, email } = req.body;
+
+    if (!nome && !email) {
+      return res.status(400).json({ erro: 'Informe ao menos nome ou email para atualizar.' });
+    }
+
+    const usuarioAtualizado = await atualizarPerfil(id, { nome, email });
+    res.json(usuarioAtualizado);
+  } catch (error: any) {
+    console.error('Erro ao atualizar perfil:', error);
+    res.status(400).json({ erro: error.message });
+  }
+}
+
+

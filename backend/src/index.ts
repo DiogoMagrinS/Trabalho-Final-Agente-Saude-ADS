@@ -10,8 +10,6 @@ import profissionalRoutes from './routes/profissionalRoutes';
 import agendamentoRoutes from './routes/agendamentoRoutes';
 
 
-
-
 dotenv.config(); // Carrega variáveis do .env
 
 const app = express();
