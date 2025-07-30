@@ -7,6 +7,7 @@ import usuarioRoutes from './routes/usuarioRoutes';
 import especialidadeRoutes from './routes/especialidadeRoutes';
 import authRoutes from './routes/authRoutes';
 import profissionalRoutes from './routes/profissionalRoutes';
+import agendamentoRoutes from './routes/agendamentoRoutes';
 
 
 
@@ -24,7 +25,8 @@ app.use(express.json());
 app.use('/api/usuarios', usuarioRoutes);          
 app.use('/api/especialidades', especialidadeRoutes); 
 app.use('/api/auth', authRoutes);   
-app.use('/api/profissionais', profissionalRoutes);             
+app.use('/api/profissionais', profissionalRoutes);  
+app.use('/api/agendamentos', agendamentoRoutes);           
 
 // Healthcheck
 app.get('/healthcheck', (req, res) => {
