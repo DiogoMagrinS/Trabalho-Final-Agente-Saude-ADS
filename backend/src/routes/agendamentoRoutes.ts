@@ -6,6 +6,7 @@ import {
   putAgendamento,
   deleteAgendamento
 } from '../controllers/agendamentoController';
+import { listarAgendamentosUsuario } from '../controllers/agendamentoController';
 
 import { autenticarToken } from '../middlewares/authMiddleware';
 
@@ -18,5 +19,6 @@ router.get('/:id', getAgendamentoPorId);
 router.post('/', postAgendamento);
 router.put('/:id', putAgendamento);
 router.delete('/:id', deleteAgendamento);
+router.get('/me', autenticarToken, listarAgendamentosUsuario);
 
 export default router;

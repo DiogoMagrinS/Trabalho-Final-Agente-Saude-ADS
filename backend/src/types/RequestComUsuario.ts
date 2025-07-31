@@ -8,3 +8,5 @@ export interface RequestComUsuario extends Request {
     tipo: TipoUsuario;
   };
 }
+
+

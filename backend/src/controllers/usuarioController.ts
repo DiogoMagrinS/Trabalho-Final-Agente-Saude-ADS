@@ -1,12 +1,15 @@
-import { Request, Response } from 'express';
+import { Request, Response, } from 'express';
 import {
   listarUsuarios,
   buscarUsuarioPorId,
   criarUsuario,
   atualizarUsuario,
-  excluirUsuario
+  excluirUsuario,
+  atualizarPerfil,
+  alterarSenha,
 } from '../services/usuarioService';
-import { atualizarPerfil } from '../services/usuarioService';
+import { RequestComUsuario } from '../types/RequestComUsuario';
+
 
 
 export async function getUsuarios(req: Request, res: Response) {
@@ -71,4 +74,18 @@ export async function atualizarPerfilUsuario(req: Request, res: Response) {
   }
 }
 
+export async function alterarSenhaUsuario(req: RequestComUsuario, res: Response) {
+  try {
+    const id = req.usuario.id;
+    const { senhaAtual, novaSenha } = req.body;
 
+    if (!senhaAtual || !novaSenha) {
+      return res.status(400).json({ erro: 'Preencha todos os campos.' });
+    }
+
+    await alterarSenha(id, senhaAtual, novaSenha);
+    res.json({ mensagem: 'Senha alterada com sucesso!' });
+  } catch (error: any) {
+    res.status(400).json({ erro: error.message });
+  }
+}

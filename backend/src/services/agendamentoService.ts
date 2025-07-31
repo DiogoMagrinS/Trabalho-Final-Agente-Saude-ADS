@@ -117,3 +117,22 @@ export async function excluirAgendamento(id: number) {
     where: { id }
   });
 }
+
+export async function listarAgendamentosDoUsuario(usuarioId: number) {
+  return prisma.agendamento.findMany({
+    where: { pacienteId: usuarioId },
+    orderBy: { data: 'asc' },
+    include: {
+      profissional: {
+        include: {
+          usuario: {
+            select: { nome: true }
+          },
+          especialidade: {
+            select: { nome: true }
+          }
+        }
+      }
+    }
+  });
+}

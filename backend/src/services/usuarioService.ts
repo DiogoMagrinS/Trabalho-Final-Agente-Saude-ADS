@@ -66,3 +66,18 @@ export async function atualizarPerfil(id: number, dados: { nome?: string, email?
     },
   });
 }
+
+export async function alterarSenha(id: number, senhaAtual: string, novaSenha: string) {
+  const usuario = await prisma.usuario.findUnique({ where: { id } });
+  if (!usuario) throw new Error('Usuário não encontrado.');
+
+  const senhaCorreta = await bcrypt.compare(senhaAtual, usuario.senha);
+  if (!senhaCorreta) throw new Error('Senha atual incorreta.');
+
+  const novaSenhaHash = await bcrypt.hash(novaSenha, 10);
+
+  await prisma.usuario.update({
+    where: { id },
+    data: { senha: novaSenhaHash }
+  });
+}
