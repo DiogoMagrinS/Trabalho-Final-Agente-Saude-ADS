@@ -1,3 +1,4 @@
+import { PrismaClient } from '@prisma/client';
 import { Request, Response, } from 'express';
 import {
   listarUsuarios,
@@ -10,6 +11,8 @@ import {
 } from '../services/usuarioService';
 import { RequestComUsuario } from '../types/RequestComUsuario';
 
+
+const prisma = new PrismaClient();
 
 
 export async function getUsuarios(req: Request, res: Response) {
